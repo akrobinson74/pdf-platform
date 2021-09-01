@@ -28,7 +28,7 @@ dependencies {
     implementation("com.graphql-java-kickstart:graphiql-spring-boot-starter:11.1.0")
     implementation("com.graphql-java-kickstart:graphql-spring-boot-starter:11.1.0")
     implementation("com.graphql-java-kickstart:graphql-webclient-spring-boot-starter:1.0.0")
-//    implementation("com.graphql-java-kickstart:voyager-spring-boot-starter:11.1.0")
+    implementation("com.graphql-java-kickstart:voyager-spring-boot-starter:11.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
