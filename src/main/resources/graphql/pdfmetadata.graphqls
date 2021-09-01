@@ -1,0 +1,11 @@
+input PdfMetadata {
+    clientName: String!
+    countryCode: String!
+    inputFilename: String
+    reportName: String!
+    reportType: ReportType!
+}
+
+input UploadInput {
+    meta: [PdfMetadata!]
+}

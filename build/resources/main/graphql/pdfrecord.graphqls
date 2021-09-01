@@ -1,0 +1,16 @@
+type PdfRecord {
+    clientName: String!
+    countryCode: String!
+    id: ID
+    inputFilename: String
+    reportName: String!
+    reportType: ReportType!
+}
+
+enum ReportType {
+    PLATFORMS,
+    SUBADVISORY_OPPORTUNITY_BY_CATEGORY,
+    SUBADVISED_WATCHLIST,
+    TOP_SUBADVISORS,
+    VA_CONTRACTS
+}

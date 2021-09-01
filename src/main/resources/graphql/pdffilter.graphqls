@@ -1,0 +1,25 @@
+input FilterField {
+    fieldName: FieldName!
+    operator: FilterOperator!
+    value: String!
+}
+
+enum FieldName {
+    CLIENT_NAME,
+    COUNTRY_CODE,
+    INPUT_FILE_NAME,
+    REPORT_NAME,
+    REPORT_TYPE
+}
+
+enum FilterOperator {
+    EQ,
+    GE,
+    GT,
+    LE,
+    LT,
+    CONTAINS,
+    ENDS_WITH,
+    EQUALS,
+    STARTS_WITH
+}
