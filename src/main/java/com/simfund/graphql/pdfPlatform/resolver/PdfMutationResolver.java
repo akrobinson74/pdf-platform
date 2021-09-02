@@ -59,9 +59,8 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
         context.getFileParts()
                 .forEach(part -> {
                     val fileName = part.getSubmittedFileName();
-                    val noMetadata = uploadMetadata == null ? true : false;
                     val pdfMetadata =getMetadataOrParseFilename(
-                            fileName, noMetadata ? null : uploadMetadata.getMeta().get(index.get())
+                            fileName, uploadMetadata == null ? null : uploadMetadata.getMeta().get(index.get())
                     );
 
                     storeAndSaveMetadata(pdfRecordList, part, pdfMetadata, pgRepository);
