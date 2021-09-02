@@ -14,7 +14,7 @@ public enum FilterFieldName {
         String[] tokenArray = this.name().toLowerCase().split("_");
         return tokenArray[0] +
                 IntStream.range(1, tokenArray.length)
-                        .mapToObj(i -> tokenArray[i].substring(0, 0) + tokenArray[i].substring(1))
+                        .mapToObj(i -> tokenArray[i].substring(0, 1).toUpperCase() + tokenArray[i].substring(1))
                         .collect(Collectors.joining());
     }
 }

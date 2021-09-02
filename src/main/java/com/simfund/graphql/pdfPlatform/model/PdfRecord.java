@@ -7,9 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Builder(toBuilder=true)
-@Data
 @Entity
-@EqualsAndHashCode(of = { "id" })
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

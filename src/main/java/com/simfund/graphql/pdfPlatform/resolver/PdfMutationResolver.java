@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,13 +31,18 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(PdfMutationResolver.class);
     private static final String BASE_DIR = "/opt/pdf/data";
 
-    @Autowired
-    private PgRepository pgRepository;
+    private final PgRepository pgRepository;
 
+    public PdfMutationResolver(@Autowired PgRepository pgRepository) {
+        this.pgRepository = pgRepository;
+    }
+
+    @SuppressWarnings("unused")
     public List<PdfRecord> uploadPdfs(DataFetchingEnvironment dfe) {
         return storeAndSavePdf(dfe.getContext(), null);
     }
 
+    @SuppressWarnings("unused")
     public List<PdfRecord> uploadPdfsWithMetadata(
             UploadInput uploadMetadata,
             DataFetchingEnvironment dataFetchingEnvironment
@@ -48,24 +54,30 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
             DefaultGraphQLServletContext context,
             UploadInput uploadMetadata
     ) {
-        List<PdfRecord> pdfRecordList = new ArrayList<PdfRecord>();
+        List<PdfRecord> pdfRecordList = new ArrayList<>();
         AtomicInteger index = new AtomicInteger(0);
-        
         context.getFileParts()
-                .stream()
-                .map(Part::getSubmittedFileName)
-                .map(fileName -> getMetadataOrParseFilename(fileName, uploadMetadata.getMeta().get(index.get())))
-                .forEach(metadata -> storeAndSaveMetadata(pdfRecordList, index, metadata, pgRepository));
+                .forEach(part -> {
+                    val fileName = part.getSubmittedFileName();
+                    val noMetadata = uploadMetadata == null ? true : false;
+                    val pdfMetadata =getMetadataOrParseFilename(
+                            fileName, noMetadata ? null : uploadMetadata.getMeta().get(index.get())
+                    );
+
+                    storeAndSaveMetadata(pdfRecordList, part, pdfMetadata, pgRepository);
+                    index.incrementAndGet();
+                });
 
         return pdfRecordList;
     }
 
     private static void storeAndSaveMetadata(
             List<PdfRecord> pdfRecordList,
-            AtomicInteger index,
+            Part filePart,
             PdfMetadata metadata,
             PgRepository pgRepository
     ) {
+        val fileName = metadata.getInputFilename();
         val reportName = metadata.getReportName();
         val newDirPath = String.join(File.separator,
                 Arrays.asList(BASE_DIR,
@@ -73,23 +85,26 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
                         metadata.getCountryCode(),
                         metadata.getReportType().name())
         );
+        val newFilename = String.format("%s.pdf", reportName);
 
         try {
             Files.createDirectories(Paths.get(newDirPath));
-            val copyPath =
-                    Paths.get(String.join(File.separator, newDirPath, StringUtils.cleanPath("$reportName.pdf")));
+            val copyPath = Paths.get(String.join(File.separator, newDirPath, StringUtils.cleanPath(newFilename)));
+
+            LOGGER.info("Copying inputStream named {} to: {} ({} bytes)", fileName, copyPath, filePart.getSize());
+            Files.copy(filePart.getInputStream(), copyPath, StandardCopyOption.REPLACE_EXISTING);
 
             val pdfRecord = PdfRecord.buildPdfRecord(metadata);
 
+            LOGGER.debug("Saving .pdf metaData for file: {}", fileName);
             pdfRecordList.add(pgRepository.save(pdfRecord));
-            index.incrementAndGet();
         } catch (IOException e) {
-            LOGGER.error("Unable to save .pdf file {}: {}", "$reportName.pdf", e.getLocalizedMessage());
+            LOGGER.error("Unable to save .pdf file {}: {}", newFilename, e.getLocalizedMessage());
         }
     }
 
     private PdfMetadata getMetadataOrParseFilename(String fileName, PdfMetadata metaData) {
-        PdfMetadata newMetadata = null;
+        PdfMetadata newMetadata;
         if (metaData != null) {
             newMetadata = metaData.toBuilder().inputFilename(fileName).build();
         } else {
@@ -99,7 +114,7 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
     }
 
     private PdfMetadata parseFilename(String fileName) {
-        val nameParts = fileName.split(".");
+        val nameParts = fileName.split("\\.");
         return PdfMetadata.builder()
                 .clientName(nameParts[0])
                 .countryCode(nameParts[1])

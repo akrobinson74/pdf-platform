@@ -15,12 +15,14 @@ public class FilterField {
     private FilterOperator operator;
     private String value;
 
+    @SuppressWarnings("unchecked")
     public Predicate generateCriteria(CriteriaBuilder builder, Path objectPath) {
         Predicate predicate = null;
         try {
+            
             switch (operator) {
                 case EQ:
-                    predicate = builder.equal(objectPath, value);
+                    predicate = builder.equal(objectPath, Integer.valueOf(value));
                 case GE:
                     predicate = builder.ge(objectPath, Integer.valueOf(value));
                 case GT:
@@ -30,15 +32,15 @@ public class FilterField {
                 case LT:
                     predicate = builder.lt(objectPath, Integer.valueOf(value));
                 case CONTAINS:
-                    predicate = builder.like(objectPath, "%$value%");
+                    predicate = builder.like(objectPath, "%" + value + "%");
                 case ENDS_WITH:
-                    predicate = builder.like(objectPath, "%$value");
+                    predicate = builder.like(objectPath, "%" + value);
                 case EQUALS:
                     predicate = fieldName == FilterFieldName.REPORT_TYPE ?
                             builder.equal(objectPath, ReportType.valueOf(value)) :
                             builder.equal(objectPath, value);
                 case STARTS_WITH:
-                    predicate = builder.like(objectPath, "$value%");
+                    predicate = builder.like(objectPath, value + "%");
             }
         }
         catch (Throwable e) {
