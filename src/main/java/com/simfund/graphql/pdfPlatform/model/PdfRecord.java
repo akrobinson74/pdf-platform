@@ -6,7 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Builder(toBuilder=true)
+@Builder(setterPrefix = "set", toBuilder=true)
 @Entity
 @Getter
 @AllArgsConstructor
@@ -33,12 +33,12 @@ public class PdfRecord {
 
     public static PdfRecord buildPdfRecord(PdfMetadata pdfMetadata) {
         return PdfRecord.builder()
-                .clientName(pdfMetadata.getClientName())
-                .countryCode(pdfMetadata.getCountryCode())
-                .id(-1L)
-                .inputFilename(pdfMetadata.getInputFilename())
-                .reportName(pdfMetadata.getReportName())
-                .reportType(pdfMetadata.getReportType())
+                .setClientName(pdfMetadata.clientName())
+                .setCountryCode(pdfMetadata.countryCode())
+                .setId(-1L)
+                .setInputFilename(pdfMetadata.inputFilename())
+                .setReportName(pdfMetadata.reportName())
+                .setReportType(pdfMetadata.reportType())
                 .build();
     }
 }

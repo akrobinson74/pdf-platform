@@ -42,7 +42,7 @@ public class PdfQueryResolver implements GraphQLQueryResolver {
 
     private Specification<PdfRecord> applyFilter(FilterField filter) {
         return (root, query, builder) -> {
-            val attributeName = filter.getFieldName().toCamelCase();
+            val attributeName = filter.fieldName().toCamelCase();
             return filter.generateCriteria(builder, root.get(attributeName));
         };
     }

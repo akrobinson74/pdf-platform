@@ -1,6 +1,6 @@
 package com.simfund.graphql.pdfPlatform.dto;
 
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,18 +8,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 
-@Data
-public class FilterField {
+@Slf4j
+public record FilterField(FilterFieldName fieldName, FilterOperator operator, String value) {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilterField.class);
-    private FilterFieldName fieldName;
-    private FilterOperator operator;
-    private String value;
 
     @SuppressWarnings("unchecked")
     public Predicate generateCriteria(CriteriaBuilder builder, Path objectPath) {
         Predicate predicate = null;
         try {
-            
+
             switch (operator) {
                 case EQ:
                     predicate = builder.equal(objectPath, Integer.valueOf(value));
@@ -42,8 +39,7 @@ public class FilterField {
                 case STARTS_WITH:
                     predicate = builder.like(objectPath, value + "%");
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             LOGGER.error("Unable to generate a predicate for field {} with operator {} and value {}: {}",
                     fieldName.name(),
                     operator.name(),
