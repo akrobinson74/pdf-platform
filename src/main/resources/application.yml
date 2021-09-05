@@ -1,16 +1,4 @@
 ---
-#graphql:
-#  servlet:
-#    # Sets if GraphQL servlet should be created and exposed. If not specified defaults to "true".
-#    enabled: true
-#    # Sets the path where GraphQL servlet will be exposed. If not specified defaults to "/graphql"
-#    mapping: /graphql
-#    cors-enabled: true
-#    exception-handlers-enabled: true
-#    context-setting: PER_REQUEST_WITH_INSTRUMENTATION
-#  tools:
-#    schema-location-pattern: "**/graphql/*.graphqls"
-
 logging:
   level:
     root: info
@@ -20,7 +8,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost/pdf_platform
+    url: jdbc:postgresql://docker.for.mac.host.internal/pdf_platform
     username: dbadmin
     password: XXXXXXXXXXXXXXXXXXX
   devtools:

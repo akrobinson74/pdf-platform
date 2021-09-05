@@ -1,10 +1,15 @@
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
+//    application
     jacoco
+    java
     `java-library`
-    id("org.springframework.boot") version "2.5.4"
+//    id("com.github.johnrengelman.shadow") version "7.0.0"
     id("io.freefair.lombok") version "6.1.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("java")
+    id("org.springframework.boot") version "2.5.4"
 }
 
 group = "com.simfund" 
@@ -42,3 +47,33 @@ tasks.test {
     useJUnitPlatform()
 }
 
+//-------- building the super, awesome, uber jar --------
+springBoot {
+    buildInfo {
+        properties {
+            artifact = "pdf-platform"
+            group = "com.simfund.graphql"
+            name = "Pdf Platform"
+            version = "0.0.1"
+        }
+    }
+    mainClass.set("com.simfund.graphql.pdfPlatform.Application")
+}
+
+val copyNecessaryFiles by tasks.creating(Copy::class) {
+    from("$projectDir/src/main/resources") {
+        include("application.yml", "graphql/*.graphqls")
+    }
+    into("$rootDir/docker/app/build")
+}
+
+tasks.getByName<Jar>("jar") {
+    enabled = false
+}
+
+
+tasks.getByName<BootJar>("bootJar") {
+    getArchiveBaseName().set("pdf-platform")
+    getDestinationDirectory().set(file("$rootDir/docker/app/build"))
+    launchScript()
+}

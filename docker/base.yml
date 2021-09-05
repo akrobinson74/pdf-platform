@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  pdf-platform:
+    build: ./app
+    container_name: pdf-platform
+    image: pdf-platform
+    ports:
+      - "9000:9000"
