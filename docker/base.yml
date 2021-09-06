@@ -1,9 +1,31 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  db:
+    build: ./postgres
+    container_name: pdf_platform_db
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pdf_net
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
   pdf-platform:
     build: ./app
     container_name: pdf-platform
+    depends_on:
+      db:
+        condition: service_healthy
     image: pdf-platform
+    networks:
+      - pdf_net
     ports:
       - "9000:9000"
+
+networks:
+  pdf_net:

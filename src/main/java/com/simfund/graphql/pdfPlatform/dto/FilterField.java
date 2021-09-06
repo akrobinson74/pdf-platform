@@ -26,18 +26,24 @@ public record FilterField(FilterFieldName fieldName, FilterOperator operator, St
                     predicate = builder.gt(objectPath, Integer.valueOf(value));
                 case LE:
                     predicate = builder.le(objectPath, Integer.valueOf(value));
+                    break;
                 case LT:
                     predicate = builder.lt(objectPath, Integer.valueOf(value));
+                    break;
                 case CONTAINS:
                     predicate = builder.like(objectPath, "%" + value + "%");
+                    break;
                 case ENDS_WITH:
                     predicate = builder.like(objectPath, "%" + value);
+                    break;
                 case EQUALS:
                     predicate = fieldName == FilterFieldName.REPORT_TYPE ?
                             builder.equal(objectPath, ReportType.valueOf(value)) :
                             builder.equal(objectPath, value);
+                    break;
                 case STARTS_WITH:
                     predicate = builder.like(objectPath, value + "%");
+                    break;
             }
         } catch (Throwable e) {
             LOGGER.error("Unable to generate a predicate for field {} with operator {} and value {}: {}",

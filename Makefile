@@ -18,7 +18,7 @@ dump:
 	@echo "               docker push $(DOCKER_REPO):dev"
 
 clean:
-	rm -rf docker/app/build 
+	rm -rf docker/app/build docker/postgres/data/*
 	./gradlew clean
 
 build: clean
