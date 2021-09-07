@@ -36,7 +36,7 @@ public class PdfRecord {
     private ReportType reportType;
 
     public PdfRecord() {
-        this(-1L, "", "", "", "", ReportType.PLATFORMS);
+        this(null, "", "", "", "", ReportType.PLATFORMS);
     }
 
     public PdfRecord(Long id, String clientName, String countryCode, String inputFilename, String reportName, ReportType reportType) {
