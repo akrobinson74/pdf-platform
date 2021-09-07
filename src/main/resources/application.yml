@@ -8,18 +8,25 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://pdf_platform_db:5432/pdf_platform
+    url: jdbc:postgresql://localhost/pdf_platform
     username: dbadmin
     password: XXXXXXXXXXXXXXXXXXX
   devtools:
     livereload:
       enabled: true
-  http:
+  servlet:
     multipart:
-      max-file-size: 10Mb
-      max-request-size: 12Mb
+      max-file-size: -1
+      max-request-size: -1
   jackson:
     serialization:
       indent_output: true
   jpa:
     generate-ddl: true
+---
+spring:
+  datasource:
+    url: jdbc:postgresql://pdf_platform_db:5432/pdf_platform
+  config:
+    activate:
+      on-profile: docker

@@ -28,3 +28,4 @@ build/
 
 docker/app/
 **/.DS_Store
+docker/postgres/data/*

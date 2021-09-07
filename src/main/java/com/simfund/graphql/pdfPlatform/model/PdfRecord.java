@@ -29,6 +29,7 @@ public class PdfRecord {
 
     private String reportName;
 
+    @Enumerated(value = EnumType.STRING)
     private ReportType reportType;
 
     public static PdfRecord buildPdfRecord(PdfMetadata pdfMetadata) {
