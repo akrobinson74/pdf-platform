@@ -8,7 +8,6 @@ import com.simfund.graphql.pdfPlatform.repository.PgRepository;
 import graphql.kickstart.servlet.context.DefaultGraphQLServletContext;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.schema.DataFetchingEnvironment;
-import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class PdfMutationResolver implements GraphQLMutationResolver {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PdfMutationResolver.class);
+    private static final Logger log = LoggerFactory.getLogger(PdfMutationResolver.class);
     private static final String BASE_DIR = "/opt/pdf/data";
 
     private final PgRepository pgRepository;
@@ -59,8 +58,8 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
         AtomicInteger index = new AtomicInteger(0);
         context.getFileParts()
                 .forEach(part -> {
-                    val fileName = part.getSubmittedFileName();
-                    val pdfMetadata =getMetadataOrParseFilename(
+                    final var fileName = part.getSubmittedFileName();
+                    final var pdfMetadata = getMetadataOrParseFilename(
                             fileName, uploadMetadata == null ? null : uploadMetadata.meta().get(index.get())
                     );
 
@@ -77,29 +76,29 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
             PdfMetadata metadata,
             PgRepository pgRepository
     ) {
-        val fileName = metadata.inputFilename();
-        val reportName = metadata.reportName();
-        val newDirPath = String.join(File.separator,
+        final var fileName = metadata.inputFilename();
+        final var reportName = metadata.reportName();
+        final var newDirPath = String.join(File.separator,
                 Arrays.asList(BASE_DIR,
                         metadata.clientName(),
                         metadata.countryCode(),
                         metadata.reportType().name())
         );
-        val newFilename = String.format("%s.pdf", reportName);
+        final var newFilename = String.format("%s.pdf", reportName);
 
         try {
             Files.createDirectories(Paths.get(newDirPath));
-            val copyPath = Paths.get(String.join(File.separator, newDirPath, StringUtils.cleanPath(newFilename)));
+            final var copyPath = Paths.get(String.join(File.separator, newDirPath, StringUtils.cleanPath(newFilename)));
 
-            LOGGER.info("Copying inputStream named {} to: {} ({} bytes)", fileName, copyPath, filePart.getSize());
+            log.info("Copying inputStream named {} to: {} ({} bytes)", fileName, copyPath, filePart.getSize());
             Files.copy(filePart.getInputStream(), copyPath, StandardCopyOption.REPLACE_EXISTING);
 
-            val pdfRecord = PdfRecord.buildPdfRecord(metadata);
+            final var pdfRecord = PdfRecord.buildPdfRecord(metadata);
 
-            LOGGER.debug("Saving .pdf metaData for file: {}", fileName);
+            log.debug("Saving .pdf metaData for file: {}", fileName);
             pdfRecordList.add(pgRepository.save(pdfRecord));
         } catch (IOException e) {
-            LOGGER.error("Unable to save .pdf file {}: {}", newFilename, e.getLocalizedMessage());
+            log.error("Unable to save .pdf file {}: {}", newFilename, e.getLocalizedMessage());
         }
     }
 
@@ -114,7 +113,7 @@ public class PdfMutationResolver implements GraphQLMutationResolver {
     }
 
     private PdfMetadata parseFilename(String fileName) {
-        val nameParts = fileName.split("\\.");
+        final var nameParts = fileName.split("\\.");
         return new PdfMetadata(nameParts[0], nameParts[1], fileName, nameParts[2], ReportType.valueOf(nameParts[3]));
     }
 }
