@@ -70,7 +70,6 @@ tasks.getByName<Jar>("jar") {
     enabled = false
 }
 
-
 tasks.getByName<BootJar>("bootJar") {
     archiveBaseName.set("pdf-platform")
     destinationDirectory.set(file("$rootDir/docker/app/build"))
