@@ -46,4 +46,7 @@ clientName, countryCode, reportType, and reportName from the string (eg. '' -> (
 See the following image and ask Adam if you need any help:
 ![Postman upload screenshot](src/main/resources/Postman-uploadPdfs.png?raw=true)
 
+
+## Using the Makefile
+
 Enjoy!

@@ -1,27 +1,19 @@
 version: '3.9'
 
 services:
-  db:
-    build: ./postgres
-    container_name: pdf_platform_db
-    healthcheck:
-      test: [ "CMD", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  sqlserver:
+    build: ./sqlserver
+    container_name: mssql-2019
     networks:
       - pdf_net
     ports:
-      - "15432:5432"
-    volumes:
-      - ./postgres/data:/var/lib/postgresql/data
+      - "1433:1433"
   pdf-platform:
     build: ./app
     container_name: pdf-platform
     depends_on:
-      db:
+      sqlserver:
         condition: service_healthy
-    image: pdf-platform
     networks:
       - pdf_net
     ports:

@@ -26,7 +26,9 @@ spring:
 ---
 spring:
   datasource:
-    url: jdbc:postgresql://pdf_platform_db:5432/pdf_platform
+    url: jdbc:sqlserver://mssql-2019:1433;databaseName=pdf_platform
+    username: sa
+    password: MSSQLServer@2019
   config:
     activate:
       on-profile: docker
