@@ -5,7 +5,6 @@ import com.simfund.graphql.pdfPlatform.model.PdfRecord;
 import com.simfund.graphql.pdfPlatform.repository.PgRepository;
 import graphql.com.google.common.collect.Lists;
 import graphql.kickstart.tools.GraphQLQueryResolver;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -42,7 +41,7 @@ public class PdfQueryResolver implements GraphQLQueryResolver {
 
     private Specification<PdfRecord> applyFilter(FilterField filter) {
         return (root, query, builder) -> {
-            val attributeName = filter.getFieldName().toCamelCase();
+            final var attributeName = filter.fieldName().toCamelCase();
             return filter.generateCriteria(builder, root.get(attributeName));
         };
     }

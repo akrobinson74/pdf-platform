@@ -1,20 +1,19 @@
 package com.simfund.graphql.pdfPlatform.dto;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public enum FilterFieldName {
-    CLIENT_NAME,
-    COUNTRY_CODE,
-    INPUT_FILE_NAME,
-    REPORT_NAME,
-    REPORT_TYPE;
+    CLIENT_NAME("clientName"),
+    COUNTRY_CODE("countryCode"),
+    INPUT_FILE_NAME("inputFilename"),
+    REPORT_NAME("reportName"),
+    REPORT_TYPE("reportType");
+
+    private String stringification;
+
+    FilterFieldName(String stringification) {
+        this.stringification = stringification;
+    }
 
     public String toCamelCase() {
-        String[] tokenArray = this.name().toLowerCase().split("_");
-        return tokenArray[0] +
-                IntStream.range(1, tokenArray.length)
-                        .mapToObj(i -> tokenArray[i].substring(0, 1).toUpperCase() + tokenArray[i].substring(1))
-                        .collect(Collectors.joining());
+        return this.stringification;
     }
 }

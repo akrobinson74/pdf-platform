@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    build: ./sqlserver
+    container_name: mssql-2019
+    networks:
+      - pdf_net
+    ports:
+      - "1433:1433"
+  pdf-platform:
+    build: ./app
+    container_name: pdf-platform
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - pdf_net
+    ports:
+      - "9000:9000"
+
+networks:
+  pdf_net:

@@ -3,4 +3,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = "pdfPlatform"
+rootProject.name = "pdf-platform"

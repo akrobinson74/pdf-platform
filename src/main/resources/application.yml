@@ -1,16 +1,4 @@
 ---
-#graphql:
-#  servlet:
-#    # Sets if GraphQL servlet should be created and exposed. If not specified defaults to "true".
-#    enabled: true
-#    # Sets the path where GraphQL servlet will be exposed. If not specified defaults to "/graphql"
-#    mapping: /graphql
-#    cors-enabled: true
-#    exception-handlers-enabled: true
-#    context-setting: PER_REQUEST_WITH_INSTRUMENTATION
-#  tools:
-#    schema-location-pattern: "**/graphql/*.graphqls"
-
 logging:
   level:
     root: info
@@ -26,12 +14,21 @@ spring:
   devtools:
     livereload:
       enabled: true
-  http:
+  servlet:
     multipart:
-      max-file-size: 10Mb
-      max-request-size: 12Mb
+      max-file-size: -1
+      max-request-size: -1
   jackson:
     serialization:
       indent_output: true
   jpa:
     generate-ddl: true
+---
+spring:
+  datasource:
+    url: jdbc:sqlserver://mssql-2019:1433;databaseName=pdf_platform
+    username: sa
+    password: MSSQLServer@2019
+  config:
+    activate:
+      on-profile: docker
