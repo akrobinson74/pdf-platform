@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "pdf_platform")
+@Table(name = "pdf_record")
 public class PdfRecord {
 
   @Column(name = "id", nullable = false)
@@ -53,7 +53,6 @@ public class PdfRecord {
     return new PdfRecord()
         .setClientName(pdfMetadata.clientName())
         .setCountryCode(pdfMetadata.countryCode())
-        .setId(-1L)
         .setInputFilename(pdfMetadata.inputFilename())
         .setReportName(pdfMetadata.reportName())
         .setReportType(pdfMetadata.reportType());

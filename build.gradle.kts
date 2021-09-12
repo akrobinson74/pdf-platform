@@ -57,7 +57,7 @@ springBoot {
             version = "0.0.1"
         }
     }
-    mainClass.set("com.simfund.graphql.pdfPlatform.Application")
+    mainClass.set("com.simfund.graphql.pdfplatform.Application")
 }
 
 val copyNecessaryFiles by tasks.creating(Copy::class) {

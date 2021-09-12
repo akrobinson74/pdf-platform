@@ -29,7 +29,7 @@ public record FilterField(FilterFieldName fieldName, FilterOperator operator, St
             case STARTS_WITH -> builder.like((Path<String>) objectPath, value + "%");
           };
 
-    } catch (Throwable e) {
+    } catch (Exception e) {
       log.error("Unable to generate a predicate for field {} with operator {} and value {}: {}",
           fieldName.name(),
           operator.name(),
@@ -41,10 +41,10 @@ public record FilterField(FilterFieldName fieldName, FilterOperator operator, St
   }
 
   private Predicate getReportTypePredicate(CriteriaBuilder builder, Path<String> objectPath)
-      throws Exception {
+      throws IllegalStateException {
     return switch (operator) {
-      case EQ, GE, GT, LE, LT -> throw new Exception(
-          "ReportType only supports string predicate operators!");
+      case EQ, GE, GT, LE, LT ->
+        throw new IllegalStateException("ReportType only supports string predicate operators!");
       case CONTAINS -> builder.like(objectPath.as(String.class), "%" + value + "%");
       case ENDS_WITH -> builder.like(objectPath.as(String.class), "%" + value);
       case EQUALS -> builder.equal(objectPath.as(String.class), value);
