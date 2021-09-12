@@ -1,11 +1,11 @@
-package com.simfund.graphql.pdfPlatform.dto;
+package com.simfund.graphql.pdfplatform.dto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FilterFieldNameTest {
+class FilterFieldNameTest {
     @Test
-    public void Test_toCamelCase() {
+    void Test_toCamelCase() {
         final var countryCode = FilterFieldName.COUNTRY_CODE;
         final var camelCasedCountryCode = countryCode.toCamelCase();
         Assertions.assertEquals("countryCode", camelCasedCountryCode);
