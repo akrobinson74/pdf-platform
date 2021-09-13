@@ -21,9 +21,9 @@ repositories {
 }
 
 dependencies {
+    
     developmentOnly(Libs.spring_boot_devtools)
 
-    implementation(Libs.de_fayard_buildsrclibs_gradle_plugin)
     implementation(Libs.jackson_core)
     implementation(Libs.guava)
     implementation(Libs.graphiql_spring_boot_starter)
