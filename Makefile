@@ -3,7 +3,7 @@ USER ?= "arobinson"
 # https://stackoverflow.com/questions/18136918/how-to-get-current-relative-directory-of-your-makefile
 SERVICE_NAME := "pdf-platform"
 VERSION ?= $(shell git describe --tags --always --abbrev=7 --dirty=-dirty-$(USER)-$(shell date -u +"%Y%m%dT%H%M%SZ"))
-DOCKER_REPO := "akrobinson74/prototypes20210905"
+DOCKER_REPO := "akrobinson74/genesys-dev"
 service-up-compose = docker-compose -f docker/base.yml
 
 dump:
@@ -24,7 +24,7 @@ clean:
 build: clean
 	./gradlew bootJar
 
-build-docker: ecr
+build-docker:
 	@echo "SERVICE_NAME : $(SERVICE_NAME)"
 	@echo "USER         : $(USER)"
 	@echo "VERSION      : $(VERSION)"

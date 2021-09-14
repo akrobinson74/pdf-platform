@@ -12,6 +12,8 @@ import kotlin.String
  * See https://github.com/jmfayard/refreshVersions
  */
 object Libs {
+    const val assertj: String = "org.assertj:assertj-core:_"
+
     const val jackson_core: String = "com.fasterxml.jackson.core:jackson-core:_"
 
     const val guava: String = "com.google.guava:guava:_"

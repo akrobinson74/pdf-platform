@@ -36,6 +36,7 @@ dependencies {
     runtimeOnly(Libs.spring_boot_devtools)
 
     testImplementation(Libs.reactor_test)
+    testImplementation(Libs.assertj)
     testImplementation(Libs.spring_boot_starter_test)
 }
 

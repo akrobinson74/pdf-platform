@@ -13,18 +13,11 @@ public enum FilterFieldName {
     this.stringification = stringification;
   }
 
-  public String toCamelCase() {
-    return this.stringification;
-  }
-
-  @Override
-  public String toString() {
-    return "FilterFieldName{" +
-        "stringification='" + stringification + '\'' +
-        '}';
-  }
-
   public String getStringification() {
     return stringification;
+  }
+
+  public String toCamelCase() {
+    return this.stringification;
   }
 }
