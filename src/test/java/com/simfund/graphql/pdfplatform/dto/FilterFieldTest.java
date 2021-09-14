@@ -11,24 +11,16 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class FilterFieldTest {
-  //  private static final CriteriaBuilder CRITERIA_BUILDER = new
-  // EntityManager().getCriteriaBuilder();
-  //  private static final CriteriaQuery<PdfRecord> CRITERIA_QUERY = CriteriaQuery
-
+  
   @ParameterizedTest
   @MethodSource("generateCriteriaSources")
   void Test_generateCriteria(CriteriaBuilder criteriaBuilder, Path<?> path, Predicate expected) {
-    String fred = null;
-    assertThat(fred).isNull();
+    assertThat(criteriaBuilder).isNull();
+    assertThat(path).isNull();
+    assertThat(expected).isNull();
   }
 
   private static Stream<Arguments> generateCriteriaSources() {
-    //    (Specification<PdfRecord>)(root, query, builder) -> {
-    //      return Stream.of(
-    //          Arguments.of(builder, root.get("clientName"), builder.equals()),
-    //          Arguments.of()
-    //      );
-    //    };
     return null;
   }
 }
