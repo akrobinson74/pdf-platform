@@ -32,3 +32,12 @@ spring:
   config:
     activate:
       on-profile: docker
+---
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:31433;databaseName=pdf_platform
+    username: sa
+    password: MSSQLServer@2019
+  config:
+    activate:
+      on-profile: k8s
