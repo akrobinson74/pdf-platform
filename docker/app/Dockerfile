@@ -1,7 +1,6 @@
 FROM adoptopenjdk/openjdk16:alpine-slim
 
-ARG SPRING_PROFILE=docker
-ENV PROFILE=$SPRING_PROFILE
+ENV PROFILE="k8s"
 
 WORKDIR /opt
 COPY build/pdf-platform*.jar pdf-platform.jar

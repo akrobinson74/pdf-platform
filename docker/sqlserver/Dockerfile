@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/mssql/server:2019-latest
 ENV ACCEPT_EULA=Y
 ENV SA_PASSWORD=MSSQLServer@2019
 ENV MSSQL_PID=Developer
-ENV MSSQL_TCP_PORT=1433
+ENV MSSQL_TCP_PORT=11433
 
 COPY create-db.sh create-db.sh
 COPY create_db.sql create_db.sql
