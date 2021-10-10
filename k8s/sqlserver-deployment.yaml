@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f base.yml
+    kompose.version: 1.24.0 (HEAD)
+  labels:
+    io.kompose.service: sqlserver
+  name: sqlserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sqlserver
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f base.yml
+        kompose.version: 1.24.0 (HEAD)
+      labels:
+        io.kompose.network/pdf-net: "true"
+        io.kompose.service: sqlserver
+    spec:
+      containers:
+        - image: docker_sqlserver
+          imagePullPolicy: Never
+          name: mssql-2019
+          ports:
+            - containerPort: 1433
+          resources: {}
+      restartPolicy: Always

@@ -7,13 +7,15 @@ services:
     networks:
       - pdf_net
     ports:
-      - "1433:1433"
+      - "11433:11433"
   pdf-platform:
     build: ./app
     container_name: pdf-platform
     depends_on:
       sqlserver:
         condition: service_healthy
+    environment:
+      - PROFILE=docker
     networks:
       - pdf_net
     ports:

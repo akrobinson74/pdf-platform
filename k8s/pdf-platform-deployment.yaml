@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f base.yml
+    kompose.version: 1.24.0 (HEAD)
+  labels:
+    io.kompose.service: pdf-platform
+  name: pdf-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: pdf-platform
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f base.yml
+        kompose.version: 1.24.0 (HEAD)
+      labels:
+        io.kompose.network/pdf-net: "true"
+        io.kompose.service: pdf-platform
+    spec:
+      containers:
+        - image: docker_pdf-platform
+          imagePullPolicy: Never
+          name: pdf-platform
+          ports:
+            - containerPort: 9000
+          resources: {}
+      restartPolicy: Always

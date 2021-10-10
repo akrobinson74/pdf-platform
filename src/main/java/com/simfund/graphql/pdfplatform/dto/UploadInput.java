@@ -1,6 +1,7 @@
-package com.simfund.graphql.pdfPlatform.dto;
+package com.simfund.graphql.pdfplatform.dto;
 
 import java.util.List;
 
 public record UploadInput(List<PdfMetadata> meta) {
+
 }
